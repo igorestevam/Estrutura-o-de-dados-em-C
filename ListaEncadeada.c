@@ -120,6 +120,9 @@ int remover(Lista *lista, int x){
     if(lista == NULL){
         return 0;
     }
+    if(*lista == NULL){
+        return 0;
+    }
     
     cel *ant;
     cel *temp;
@@ -129,11 +132,7 @@ int remover(Lista *lista, int x){
             if(temp == *lista){
                 *lista = temp->seg;
             }else{
-                if(temp->seg == NULL){
-                    ant->seg = NULL;
-                }else{
-                    ant->seg = temp->seg;
-                }
+                ant->seg = temp->seg;
             }
             free(temp);
             return 1;
@@ -144,20 +143,15 @@ int remover(Lista *lista, int x){
     return 0;
 }
 //----------------------------------------------------------------
-int removerTodos(Lista *lista){
-    if(lista == NULL){
-        return 0;
-    }else{
-        if((*lista) == NULL){
-			free(lista);
-            return 1;
+void liberarLista(Lista *lista){
+    if(lista != NULL){
+        cel *temp = *lista;
+        while(*lista != NULL){
+            *lista = temp->seg;
+            free(temp);
         }
+        free(lista);
     }
-    
-    cel *temp = *lista;
-    *lista = temp->seg;
-    free(temp);
-    removerTodos(lista);
 }
 //----------------------------------------------------------------
 
@@ -200,7 +194,7 @@ int main()
     
     //printf("%d\n", remover(lst, 25));
     
-    printf("%d\n", removerTodos(lst));
+    liberarLista(lst);
     
     imprimir_lista(lst);
     
