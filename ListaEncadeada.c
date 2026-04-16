@@ -149,6 +149,7 @@ int removerTodos(Lista *lista){
         return 0;
     }else{
         if((*lista) == NULL){
+			free(lista);
             return 1;
         }
     }
